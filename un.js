@@ -1,7 +1,8 @@
-// Asegurate de tener p5.js y p5.sound.js cargados desde tu entorno
 let mic, fft;
 let ramas = [];
 let bases = [];
+let micActivo = false;
+
 const threshold = 0.05;
 const colores = [
   '#e63946', '#f1fa8c', '#a8dadc', '#457b9d',
@@ -10,11 +11,19 @@ const colores = [
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  strokeCap(ROUND);
+
   mic = new p5.AudioIn();
-  mic.start();
   fft = new p5.FFT();
   fft.setInput(mic);
-  strokeCap(ROUND);
+
+  let boton = select('#startButton');
+  boton.mousePressed(() => {
+    mic.start(() => {
+      micActivo = true;
+      boton.hide();
+    });
+  });
 
   let centroX = width / 2;
   let centroY = height / 2;
@@ -37,6 +46,8 @@ function draw() {
   for (let b of bases) {
     line(b.x1, b.y1, b.x2, b.y2);
   }
+
+  if (!micActivo) return;
 
   let vol = mic.getLevel();
   let spectrum = fft.analyze();
