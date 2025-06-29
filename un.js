@@ -14,12 +14,12 @@ function setup() {
   strokeCap(ROUND);
 
   mic = new p5.AudioIn();
-  fft = new p5.FFT();
-  fft.setInput(mic);
+  fft = new p5.FFT(); // ¡esto va fuera del callback!
 
   let boton = select('#startButton');
   boton.mousePressed(() => {
     mic.start(() => {
+      fft.setInput(mic);
       micActivo = true;
       boton.hide();
     });
