@@ -15,8 +15,10 @@ function setup() {
 
   mic = new p5.AudioIn();
   fft = new p5.FFT(); // ¡esto va fuera del callback!
-
-  let boton = select('#startButton');
+  
+  const boton = select('#startButton');
+  boton.show();
+  
   boton.mousePressed(() => {
     mic.start(() => {
       fft.setInput(mic);
@@ -25,9 +27,9 @@ function setup() {
     });
   });
 
-  let centroX = width / 2;
-  let centroY = height / 2;
-  let angulos = [-PI / 4, -PI / 2, -3 * PI / 4];
+  const centroX = width / 2;
+  const centroY = height / 2;
+  const angulos = [-PI / 4, -PI / 2, -3 * PI / 4];
   for (let a of angulos) {
     bases.push({
       x1: centroX,
